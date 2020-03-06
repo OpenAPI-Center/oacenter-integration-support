@@ -1,4 +1,4 @@
-package org.rss.oaboard.pojo;
+package org.rss.oaboard.tools.pojo;
 
 import java.io.InputStream;
 
@@ -41,5 +41,11 @@ public class AppRecord {
 
     public InputStream getDescriptorFile() {
         return descriptorFile;
+    }
+
+    @Override
+    public String toString() {
+        return "AppRecord{" + "namespace='" + namespace + '\'' + ", appName='" + appName + '\'' + ", version='" + version + '\'' + ", url='" + url + '\''
+            + ", descriptorFile=" + descriptorFile + '}';
     }
 }
