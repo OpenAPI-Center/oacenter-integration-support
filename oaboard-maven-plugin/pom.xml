@@ -49,7 +49,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.rss.oaboard.tools.oaboard.tools</groupId>
+			<groupId>org.rss.oaboard.tools</groupId>
 			<artifactId>oaboard-java-client</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>

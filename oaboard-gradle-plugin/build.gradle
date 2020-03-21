@@ -3,16 +3,18 @@ plugins {
     id 'java-gradle-plugin'
 }
 
-group 'org.rss.oaboard.tools.oaboard.tools'
+group 'org.rss.oaboard.tools'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
 dependencies {
     compile group: 'org.rss.oaboard.tools', name: 'oaboard-java-client', version: '1.0-SNAPSHOT'
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
+    testCompile 'org.junit.platform:junit-platform-runner:1.5.2'
 }
