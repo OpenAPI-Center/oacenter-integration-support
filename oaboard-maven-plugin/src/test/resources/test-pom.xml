@@ -13,6 +13,8 @@
 				<version>1.0-SNAPSHOT</version>
 				<configuration>
 					<base-url>http://localhost:8080</base-url>
+					<username>admin</username>
+					<password>test</password>
 					<target-namespace>Integration</target-namespace>
 					<file>${project.basedir}/test-descriptor.yaml</file>
 					<app-url>http://localhost:9090/test</app-url>

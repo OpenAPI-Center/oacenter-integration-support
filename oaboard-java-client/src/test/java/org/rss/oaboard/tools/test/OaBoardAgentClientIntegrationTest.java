@@ -9,14 +9,14 @@ import org.rss.oaboard.tools.pojo.AppRecord;
 public class OaBoardAgentClientIntegrationTest {
 
     OaBoardAgentClient tested = new OaBoardAgentClient("http://localhost:8080/",
-                                                       null,
-                                                       null,
+                                                       "admin",
+                                                       "test",
                                                        System.out::println);
 
     @Test
     void invokeRemoteService() {
-        tested.pushConfiguration(new AppRecord("production", "oaboard-test", "1.0-SNAPSHOT",
-                                               null,
+        tested.pushConfiguration(new AppRecord("Production", "Orders", "1.3",
+                                               "http://someplace/app",
                                                getClass().getResourceAsStream("/test-descriptor.yaml")));
     }
 

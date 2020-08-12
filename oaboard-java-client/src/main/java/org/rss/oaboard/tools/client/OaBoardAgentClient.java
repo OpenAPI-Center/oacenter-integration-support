@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.function.Consumer;
 
 import javax.ws.rs.ProcessingException;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -11,6 +12,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
@@ -33,6 +35,7 @@ public class OaBoardAgentClient {
             .newBuilder()
             .register(JacksonFeature.class)
             .register(MultiPartFeature.class)
+            .register(HttpAuthenticationFeature.basic(username, password))
             .build();
 
         this.baseTarget = client.target(serverUrl).path(AGENT_PATH);
@@ -64,8 +67,9 @@ public class OaBoardAgentClient {
                                     .put(Entity.entity(multipart, multipart.getMediaType()));
 
             handleResponse(response);
-        } catch (IOException e) {
+        } catch (IOException | WebApplicationException e) {
             logger.accept(e.getMessage());
+            throw new RuntimeException("Error calling remote service. ", e);
         }
     }
 
