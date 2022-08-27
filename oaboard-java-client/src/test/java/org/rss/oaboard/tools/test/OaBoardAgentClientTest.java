@@ -61,6 +61,17 @@ public class OaBoardAgentClientTest {
     }
 
     @Test
+    void invokeWithInvalidNames() {
+        ByteArrayInputStream stream = new ByteArrayInputStream("test".getBytes());
+        assertAll(
+                () -> assertThrows(IllegalArgumentException.class, () ->
+                        tested.pushConfiguration(new AppRecord("nsOk", "name/invalid", "1.0", "http://address", null))),
+                () -> assertThrows(IllegalArgumentException.class, () ->
+                        tested.pushConfiguration(new AppRecord("Namespace-", "apiOk", "1.0", "http://address", stream)))
+        );
+    }
+
+    @Test
     void checkResponse404() {
         when((builder.put(any()))).thenReturn(Response.status(404).build());
         ByteArrayInputStream stream = new ByteArrayInputStream("test".getBytes());
@@ -71,7 +82,7 @@ public class OaBoardAgentClientTest {
 
     @Test
     void checkResponseValidationError() {
-        when((builder.put(any()))).thenReturn(Response.status(409).entity("{'rapp': 'oab', 'cause': 'testing purpose'}").build());
+        when((builder.put(any()))).thenReturn(Response.status(409).entity("{'errorOrigin': 'oab', 'cause': 'testing purpose'}").build());
         ByteArrayInputStream stream = new ByteArrayInputStream("test".getBytes());
 
         assertThrows(RuntimeException.class,

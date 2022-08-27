@@ -2,12 +2,12 @@ package org.rss.oaboard.tools.pojo;
 
 import java.io.InputStream;
 
-/** Simple Pojo representing the current app entry to be uploaded */
+/** Simple Pojo representing the current api entry to be uploaded */
 public class AppRecord {
 
     private final String namespace;
 
-    private final String appName;
+    private final String apiName;
 
     private final String version;
 
@@ -15,9 +15,9 @@ public class AppRecord {
 
     private final InputStream descriptorFile;
 
-    public AppRecord(final String namespace, final String appName, final String version, final String url, final InputStream descriptorFile) {
+    public AppRecord(final String namespace, final String apiName, final String version, final String url, final InputStream descriptorFile) {
         this.namespace = namespace;
-        this.appName = appName;
+        this.apiName = apiName;
         this.version = version;
         this.url = url;
         this.descriptorFile = descriptorFile;
@@ -27,8 +27,8 @@ public class AppRecord {
         return namespace;
     }
 
-    public String getAppName() {
-        return appName;
+    public String getApiName() {
+        return apiName;
     }
 
     public String getVersion() {
@@ -45,7 +45,7 @@ public class AppRecord {
 
     @Override
     public String toString() {
-        return "AppRecord{" + "namespace='" + namespace + '\'' + ", appName='" + appName + '\'' + ", version='" + version + '\'' + ", url='" + url + '\''
+        return "ApiRecord{" + "namespace='" + namespace + '\'' + ", apiName='" + apiName + '\'' + ", version='" + version + '\'' + ", url='" + url + '\''
             + ", descriptorFile=" + descriptorFile + '}';
     }
 }

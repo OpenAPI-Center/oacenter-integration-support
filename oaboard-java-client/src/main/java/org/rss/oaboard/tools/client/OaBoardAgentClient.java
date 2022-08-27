@@ -2,6 +2,7 @@ package org.rss.oaboard.tools.client;
 
 import java.io.IOException;
 import java.util.function.Consumer;
+import java.util.regex.Pattern;
 
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.WebApplicationException;
@@ -23,7 +24,8 @@ import org.rss.oaboard.tools.pojo.OaBoardValidationError;
 /** Client for Agent endpoint on oaBoard Server */
 public class OaBoardAgentClient {
 
-    private static final String AGENT_PATH = "/agent";
+    private static final Pattern PATTERN = Pattern.compile("\\w+(([-.])\\w+)*");
+
     private final Client client;
     private final WebTarget baseTarget;
     private final Consumer<String> logger;
@@ -38,7 +40,7 @@ public class OaBoardAgentClient {
             .register(HttpAuthenticationFeature.basic(username, password))
             .build();
 
-        this.baseTarget = client.target(serverUrl).path(AGENT_PATH);
+        this.baseTarget = client.target(serverUrl);
         logger.accept("Setting oaBoard client with target: " + this.baseTarget.toString());
     }
 
@@ -52,18 +54,19 @@ public class OaBoardAgentClient {
         validateRecord(record);
         logger.accept("Pushing " + record);
         
-        WebTarget path = baseTarget
-            .path(record.getNamespace()).path(record.getAppName());
+        final WebTarget path = baseTarget
+            .path("namespaces")
+            .path(record.getNamespace())
+            .path("apis")
+            .path(record.getApiName());
 
-        Response response;
-//        FormDataMultiPart multipart = new FormDataMultiPart();
         try (FormDataMultiPart multipart = new FormDataMultiPart()) {
             multipart
                 .field("version", record.getVersion())
                 .field("url", record.getUrl() != null ? record.getUrl() : "")
                 .bodyPart(new StreamDataBodyPart("file", record.getDescriptorFile()));
 
-            response = path.request(MediaType.APPLICATION_FORM_URLENCODED)
+            final Response response = path.request(MediaType.APPLICATION_FORM_URLENCODED)
                                     .put(Entity.entity(multipart, multipart.getMediaType()));
 
             handleResponse(response);
@@ -74,7 +77,7 @@ public class OaBoardAgentClient {
     }
 
     public void testConnection() {
-        Response result = baseTarget.path("ping").request(MediaType.APPLICATION_JSON).get();
+        Response result = baseTarget.path("test").path("ping").request(MediaType.APPLICATION_JSON).get();
 
         switch (result.getStatusInfo().toEnum()) {
         case NOT_FOUND:
@@ -97,8 +100,11 @@ public class OaBoardAgentClient {
         if (record.getNamespace() == null || record.getNamespace().isEmpty()) {
             throw new IllegalArgumentException("Target namespace is mandatory, but current value is empty");
         }
-        if (record.getAppName() == null || record.getAppName().isEmpty()) {
+        if (record.getApiName() == null || record.getApiName().isEmpty()) {
             throw new IllegalArgumentException("App name is mandatory, but current value is empty");
+        }
+        if (!PATTERN.matcher(record.getNamespace()).matches() || !PATTERN.matcher(record.getApiName()).matches()) {
+            throw new IllegalArgumentException("Namespace and API name must be valid, containing only text, dash or dot");
         }
         if (record.getDescriptorFile() == null) {
             throw new IllegalArgumentException("Descriptor file is required. Indicate the location of a text file.");

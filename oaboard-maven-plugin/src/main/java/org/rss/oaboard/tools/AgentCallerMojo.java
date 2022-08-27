@@ -51,7 +51,7 @@ public class AgentCallerMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException {
         getLog().info("Executing oaBoard:send");
         validateServer(serverBaseUrl);
-        OaBoardAgentClient client = new OaBoardAgentClient(serverBaseUrl, serverUsername, serverPassword, this::logDebug);
+        final OaBoardAgentClient client = new OaBoardAgentClient(serverBaseUrl, serverUsername, serverPassword, this::logDebug);
 
         try {
             client.pushConfiguration(new AppRecord(namespace, appName, appVersion, appAddress, loadFile()));
