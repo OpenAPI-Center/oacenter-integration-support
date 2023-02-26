@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.rss.oacenter.tools.testing</groupId>
+	<artifactId>test-maven</artifactId>
+	<version>1.0-SNAPSHOT</version>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.rss.oacenter.tools</groupId>
+				<artifactId>oacenter-maven-plugin</artifactId>
+				<version>1.0-SNAPSHOT</version>
+				<configuration>
+					<base-url>http://localhost:8080</base-url>
+					<username>admin</username>
+					<password>test</password>
+					<target-name>Products</target-name>
+					<target-namespace>Integration</target-namespace>
+					<file>${project.basedir}/test-descriptor.yaml</file>
+					<api-url>http://localhost:9090/test</api-url>
+					<requires-auths>
+						<value>PERM_TEST</value>
+					</requires-auths>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+	</dependencies>
+</project>
