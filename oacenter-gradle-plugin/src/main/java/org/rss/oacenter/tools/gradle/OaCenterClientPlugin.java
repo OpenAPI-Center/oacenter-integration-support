@@ -24,7 +24,6 @@ public class OaCenterClientPlugin implements Plugin<Project> {
 
             task.doLast(t -> {
                 project.getLogger().info("Starting OaCenterGradlePlugin ");
-                System.out.println("Starting");
 
                 validateRequest(extension.server, extension.namespace);
                 loadDefaultValues(extension, project);

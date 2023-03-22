@@ -24,3 +24,12 @@ test {
     useJUnitPlatform {
     }
 }
+
+gradlePlugin {
+    plugins {
+        simplePlugin {
+            id = 'openapi-center'
+            implementationClass = 'org.rss.oacenter.tools.gradle.OaCenterClientPlugin'
+        }
+    }
+}

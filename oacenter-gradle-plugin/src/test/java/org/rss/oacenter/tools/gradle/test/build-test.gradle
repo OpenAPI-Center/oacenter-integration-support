@@ -1,0 +1,24 @@
+package org.rss.oacenter.tools.gradle.test
+
+plugins {
+    id 'java'
+    id 'openapi-center' version '1.0-SNAPSHOT'
+}
+
+group 'org.rss.test.apps'
+version '1.0-SNAPSHOT'
+
+// ...
+
+oac.server = 'https://doc-server';
+oac.applicationName = 'football-stats';
+oac.namespace = 'State';
+oac.version = '2.1';
+oac.applicationUrl = 'https://myapp';
+oac.descriptorPath = ${project.basedir} + '/test-descriptor.yaml';
+oac.username = 'agent';
+oac.password = 'passw';
+oac.requiresAuths = ['ROLE_ABC'];
+
+deployOpenApiDefinition {
+}
